@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calendário Muito Zika</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: radial-gradient(circle at top, #3c1b55, #050816 60%);
+      overflow: hidden;
+    }
+    /* Efeito de estrelas no fundo
+    body::before {
+      content: "";
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      background-image:
+        radial-gradient(white 1px, transparent 1px),
+        radial-gradient(white 1px, transparent 1px);
+      background-size: 80px 80px, 120px 120px;
+      background-position: 0 0, 40px 60px;
+      opacity: 0.25;
+      animation: moverEstrelas 40s linear infinite;
+    }
+    */
+    /* Animação para mover as estrelas no fundo
+    @keyframes moverEstrelas {
+      from {
+        transform: translate(0, 0);
+      }
+      to {
+        transform: translate(-200px, -200px);
+      }
+    }
+    */
+    .card {
+      position: relative;
+      z-index: 1;
+      width: min(900px, 90%);
+      padding: 40px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(15px);
+      box-shadow: 0 0 40px rgba(162, 0, 255, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      text-align: center;
+      animation: aparecer 1s ease;
+    }
+
+    @keyframes aparecer {
+      from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.98);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    h1 {
+      font-size: 36px;
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+    }
+
+    .subtitulo {
+      color: #f8c5f0;
+      margin-bottom: 35px;
+    }
+
+    .contador {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    .bloco {
+      padding: 24px 12px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .bloco:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 0 25px rgba(132, 0, 255, 0.35);
+    }
+
+    .numero {
+      font-size: 38px;
+      font-weight: bold;
+      color: #ffffff;
+    }
+
+    .label {
+      margin-top: 8px;
+      font-size: 14px;
+      color: #d5ddff;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    @media (max-width: 700px) {
+      .contador {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      h1 {
+        font-size: 28px;
+      }
+    }
+
+    #flores {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .flor {
+      position: absolute;
+      top: -50px;
+      font-size: 30px;
+      animation: cair linear forwards;
+    }
+
+    @keyframes cair {
+      from {
+        transform: translateY(-50px) rotate(0deg);
+      }
+      to {
+        transform: translateY(150vh) rotate(360deg);
+      }
+    }
+
+    @keyframes cairBalançando{
+      0% {
+        transform: translateX(0) translateY(-120px) rotate(0deg);
+      }
+      25%{
+        transform: translateX(40px) translateY(25vh) rotate(8deg) ;
+      }
+      50% {
+        transform: translateX(-40px) translateY(55vh) rotate(-8deg);
+      }
+      75% {
+        transform: translateX(30px) translateY(85vh) rotate(6deg);
+      }
+      100% {
+        transform: translateX(-20px) translateY(115vh) rotate(-6deg);
+      }
+    }
+
+    .foto-caindo {
+      position: absolute;
+      top: -120px;
+      width: 90px;
+      opacity: 0.35;
+      border-radius: 16px;
+      animation-name: cair;
+      animation-timing-function: ease-in-out;
+      animation-fill-mode: forwards;
+      filter: blur(0.3px);
+    }
+
+    .texto-amor{
+      margin-top: 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .texto-amor h2{
+      margin-bottom: 20px;
+    }
+  
+  </style>
+</head>
+
+<body>
+  <div id="flores"></div>
+  <div class="card">
+    <h1>Feliz exatamente</h1>
+    
+
+    <div class="contador">
+      <div class="bloco">
+        <div class="numero" id="dias">0</div>
+        <div class="label">Dias</div>
+      </div>
+
+      <div class="bloco">
+        <div class="numero" id="horas">0</div>
+        <div class="label">Horas</div>
+      </div>
+
+      <div class="bloco">
+        <div class="numero" id="minutos">0</div>
+        <div class="label">Minutos</div>
+      </div>
+
+      <div class="bloco">
+        <div class="numero" id="segundos">0</div>
+        <div class="label">Segundos</div>
+      </div>
+    </div>
+
+      <!-- <div class="bloco">
+        <div class="numero" id="milissegundos">0</div>
+        <div class="label">Milissegundos</div>
+      </div> -->
+      
+      <div class="texto-amor">
+       <h2>de namoro!!! 💜💜</h2>
+       <p class="subtitulo">Contando desde 23/05/2024 às 15:45:00</p>
+    </div>
+  </div>
+
+  <script>
+    const dataInicial = new Date("2026-05-26T15:45:00");
+
+    function atualizarContador() {
+      const agora = new Date();
+      const diferenca = agora - dataInicial;
+
+      const dias = Math.floor(diferenca / (1000 * 60 * 60 * 24));
+      const horas = Math.floor((diferenca / (1000 * 60 * 60)) % 24);
+      const minutos = Math.floor((diferenca / (1000 * 60)) % 60);
+      const segundos = Math.floor((diferenca / 1000) % 60);
+      //const milissegundos = diferenca % 1000;
+
+      document.getElementById("dias").textContent = dias;
+      document.getElementById("horas").textContent = horas;
+      document.getElementById("minutos").textContent = minutos;
+      document.getElementById("segundos").textContent = segundos;
+      // document.getElementById("milissegundos").textContent = milissegundos;
+    }
+
+    function criarflor() {
+      const emojis = ["🌸", "🌹", "🌼", "🌻", "💐",];
+      const flor = document.createElement("div");
+      flor.classList.add("flor");
+      
+      flor.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+      flor.style.left = Math.random() * window.innerWidth + "px";
+      flor.style.fontSize = (20 + Math.random() * 25) + "px";
+      flor.style.animationDuration = (5 + Math.random() * 8) + "s";
+
+      document.getElementById("flores").appendChild(flor);
+
+      setTimeout(() => {
+        flor.remove();
+      }, 13000);
+
+    }
+
+    function criarFoto() {
+      const fotos = [];
+      for (let i = 1; i <= 18; i++) {
+        fotos.push(`foto${i}.jpeg`);
+      }
+    
+
+      const foto = document.createElement("img");
+
+      foto.src = fotos[Math.floor(Math.random() * fotos.length)];
+      foto.classList.add("foto-caindo");
+      foto.style.left = Math.random() * window.innerWidth + "px";
+      foto.style.width = (70 + Math.random() * 60) + "px";
+      foto.style.animationDuration = (8 + Math.random() * 10) + "s";
+
+      document.getElementById("flores").appendChild(foto);
+
+      setTimeout(() => {
+        foto.remove();
+      }, 18000);
+    }
+
+    atualizarContador();
+    setInterval(atualizarContador, 1000);
+    setInterval(criarflor, 600);
+    setInterval(criarFoto, 1000);
+  </script>
+</body>
+</html>
