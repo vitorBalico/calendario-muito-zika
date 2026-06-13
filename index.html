@@ -190,6 +190,39 @@
     .texto-amor h2{
       margin-bottom: 20px;
     }
+
+    #botaoMusica {
+      margin-top: 20px;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 12px;
+      background: #8a2be2;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    #botaoMusica:hover {
+      transform: scale(1.05);
+      background: #a64dff;
+    }
+
+    #botaoReiniciar {
+    margin-top: 10px;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 12px;
+    background: #5a189a;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.3s;
+    }
+
+    #botaoReiniciar:hover{
+      transform: scale(1.05);
+    }
   
   </style>
 </head>
@@ -230,11 +263,44 @@
       <div class="texto-amor">
        <h2>de namoro!!! 💜💜💜</h2>
        <!--<p class="subtitulo">Contando desde 23/05/2026 às 15:45:00</p>-->
+
+      <button id="botaoMusica">
+        🎺 Tocar Música
+      </button>
+
+      <button id="botaoReiniciar">
+        🔄 Reiniciar Música
+      </button>
+
     </div>
   </div>
 
   <script>
     const dataInicial = new Date("2026-05-23T15:45:00");
+
+    const musica = new Audio("sorte.MPEG");
+
+    const botaoMusica = document.getElementById("botaoMusica");
+
+    const botaoReiniciar = document.getElementById("botaoReiniciar");
+
+  let musicaTocando = false;
+
+botaoMusica.addEventListener("click", function() {
+  if (musicaTocando === false) {
+  musica.play();
+  botaoMusica.textContent = "⏸️ Pausar Música";
+  musicaTocando = true;
+} else {
+  musica.pause();
+  botaoMusica.textContent = "🎺 Tocar Música"
+  musicaTocando = false;
+}
+});
+
+botaoReiniciar.addEventListener("click", function() {
+  musica.currentTime = 0;
+})
 
     function atualizarContador() {
       const agora = new Date();
@@ -251,6 +317,7 @@
       document.getElementById("minutos").textContent = minutos;
       document.getElementById("segundos").textContent = segundos;
       // document.getElementById("milissegundos").textContent = milissegundos;
+
     }
 
     function criarflor() {
